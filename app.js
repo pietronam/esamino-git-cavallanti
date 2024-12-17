@@ -181,9 +181,7 @@ function toggleEditingDisplay(){
 }
 
 function deleteAllTodos(){
-    const todos = [];
-
-    saveTodos(todos);
+    saveTodos([]);
     updateTodoCounters();
     renderTodos();
 }
