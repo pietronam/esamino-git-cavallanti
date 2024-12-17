@@ -11,3 +11,15 @@ function addTodo(title, category) {
     console.log("Todo aggiunto:", newTodo);
     return newTodo;
 }
+
+function deleteTodo(id) {
+    const index = todos.findIndex(todo => todo.id === id);
+    if (index !== -1) {
+        const deleted = todos.splice(index, 1)[0];
+        console.log("Todo eliminato:", deleted);
+        return deleted;
+    } else {
+        console.log("Todo con ID", id, "non trovato.");
+        return null;
+    }
+}
