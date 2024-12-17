@@ -2,7 +2,7 @@ window.onload = function() {
     renderTodos();
 }
 
-// Funzione per aggiungere un Todo
+/* // Funzione per aggiungere un Todo
 function addTodo(title, category) {
     const todos = loadTodos();
 
@@ -14,12 +14,11 @@ function addTodo(title, category) {
     };
 
     todos.push(newTodo);
-    todos.push(newTodo);
     saveTodos(todos);
     updateTodoCounters();
     renderTodos();
 }
-
+ */
 // Funzione per eliminare un Todo
 function deleteTodo(id) {
     let todos = loadTodos();
