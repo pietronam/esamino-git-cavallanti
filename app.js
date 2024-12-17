@@ -1,5 +1,6 @@
 window.onload = function() {
     renderTodos();
+    //Qui c'era un bug urgente, fortunatamente l'ho fixato
 }
 
 // Funzione per aggiungere un Todo
