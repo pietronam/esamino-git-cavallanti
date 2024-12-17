@@ -14,6 +14,7 @@ function addTodo(title, category) {
     };
 
     todos.push(newTodo);
+    todos.push(newTodo);
     saveTodos(todos);
     updateTodoCounters();
     renderTodos();
