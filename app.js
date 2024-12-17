@@ -47,12 +47,12 @@ function handleAddTodo() {
     categoryInput.value = '';
 }
 
-// Rende visibile la lista dei Todo
-function renderTodos() {
+// Rende visibile la lista dei Todo (può accettare un array filtrato)
+function renderTodos(filteredTodos = todos) {
     const todoList = document.getElementById('todoList');
-    todoList.innerHTML = '';
+    todoList.innerHTML = ''; // Resetta il contenuto precedente
 
-    todos.forEach(todo => {
+    filteredTodos.forEach(todo => {
         const todoDiv = document.createElement('div');
         todoDiv.className = `todo ${todo.completed ? 'completed' : ''}`;
         todoDiv.id = `todo-${todo.id}`;
@@ -62,11 +62,11 @@ function renderTodos() {
 
         const completeButton = document.createElement('button');
         completeButton.textContent = todo.completed ? 'Undo' : 'Complete';
-        completeButton.onclick = () => toggleComplete(todo.id);
+        completeButton.setAttribute('onclick', `toggleComplete(${todo.id}); renderTodos()`);
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
-        deleteButton.onclick = () => deleteTodo(todo.id);
+        deleteButton.setAttribute('onclick', `deleteTodo(${todo.id}); renderTodos()`);
 
         todoDiv.appendChild(todoText);
         todoDiv.appendChild(completeButton);
@@ -74,4 +74,32 @@ function renderTodos() {
 
         todoList.appendChild(todoDiv);
     });
+}
+
+// Filtra i Todo completati e li mostra
+function filterCompleteTodos() {
+    const filteredTodos = todos.filter(todo => todo.completed);
+    renderTodos(filteredTodos);
+}
+
+// Filtra i Todo non completati e li mostra
+function filterIncompleteTodos() {
+    const filteredTodos = todos.filter(todo => !todo.completed);
+    renderTodos(filteredTodos);
+}
+
+// Filtra i Todo in base alla categoria e li mostra
+function filterTodosByCategory() {
+    const filterCategoryInput = document.getElementById('filterCategory');
+    const filterCategory = filterCategoryInput.value.trim();
+
+    if (filterCategory === '') {
+        alert('Please enter a category!');
+        return;
+    }
+
+    filterCategoryInput.value = '';
+
+    const filteredTodos = todos.filter(todo => todo.category.toLowerCase() === filterCategory.toLowerCase());
+    renderTodos(filteredTodos);
 }
