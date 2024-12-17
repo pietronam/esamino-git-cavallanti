@@ -179,3 +179,11 @@ function toggleEditingDisplay(){
     completedCounter.textContent = `Completed: ${completedCount}`;
     incompleteCounter.textContent = `Incomplete: ${incompleteCount}`;
 }
+
+function deleteAllTodos(){
+    const todos = [];
+
+    saveTodos(todos);
+    updateTodoCounters();
+    renderTodos();
+}
