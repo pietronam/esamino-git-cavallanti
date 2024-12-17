@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo App</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <h1>Todo App</h1>
 
@@ -29,10 +31,22 @@
         <button onclick="renderTodos()">Reset Filters</button>
     </div>
 
-    <h2>Todo List</h2>
-    <div id="todoList">
-    </div>
+    <div id="editTodo">
+        <div>
+            <h3>Todo Editing</h3>
+            <button onclick="toggleEditingDisplay()">Edit a todo?</button>
+        </div>
+        <div id="editInput" class="hidden">
+            <input type="text" id="newTitle" placeholder="New Title">
+            <input type="text" id="newCategory" placeholder="New Category">
+        </div>
 
-    <script src="app.js"></script>
+
+        <h2>Todo List</h2>
+        <div id="todoList">
+        </div>
+
+        <script src="app.js"></script>
 </body>
+
 </html>

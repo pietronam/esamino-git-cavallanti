@@ -38,3 +38,11 @@ button:hover {
 button:active {
     background-color: #ccc;
 }
+
+.hidden {
+    display: none;
+}
+
+.active {
+    display: block;
+}
