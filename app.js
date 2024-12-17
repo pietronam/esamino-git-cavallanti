@@ -14,7 +14,8 @@ function addTodo(title, category) {
     };
 
     todos.push(newTodo);
-    saveTodos(todos)
+    saveTodos(todos);
+    updateTodoCounters();
     renderTodos();
 }
 
@@ -22,7 +23,8 @@ function addTodo(title, category) {
 function deleteTodo(id) {
     let todos = loadTodos();
     todos = todos.filter(todo => todo.id !== id);
-    saveTodos(todos)
+    saveTodos(todos);
+    updateTodoCounters();
     renderTodos();
 }
 
@@ -34,6 +36,7 @@ function toggleComplete(id) {
     if (todo) {
         todo.completed = !todo.completed;
         saveTodos(todos);
+        updateTodoCounters();
         renderTodos();
     }
 }
@@ -75,6 +78,8 @@ function renderTodos(filteredTodos = null) {
         const completeButton = document.createElement('button');
         completeButton.textContent = todo.completed ? 'Undo' : 'Complete';
         completeButton.setAttribute('onclick', `toggleComplete(${todo.id}); renderTodos()`);
+
+        const conflict = "oh no! un conflitto!"
 
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
@@ -128,3 +133,16 @@ function loadTodos() {
     return todos ? todos : [];
 }
 
+function updateTodoCounters() {
+    const todos = loadTodos();
+    const completedCount = todos.filter(todo => todo.completed).length;
+    const incompleteCount = todos.filter(todo => !todo.completed).length;
+
+    // Seleziona i div che visualizzano i contatori
+    const completedCounter = document.getElementById('completedCount');
+    const incompleteCounter = document.getElementById('incompleteCount');
+
+    // Aggiorna i contatori
+    completedCounter.textContent = `Completed: ${completedCount}`;
+    incompleteCounter.textContent = `Incomplete: ${incompleteCount}`;
+}
