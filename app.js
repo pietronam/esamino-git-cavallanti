@@ -22,7 +22,7 @@ function addTodo(title, category) {
 function deleteTodo(id) {
     let todos = loadTodos();
     todos = todos.filter(todo => todo.id !== id);
-    saveTodos(todos)
+    saveTodos(todos);
     renderTodos();
 }
 
@@ -76,12 +76,17 @@ function renderTodos(filteredTodos = null) {
         completeButton.textContent = todo.completed ? 'Undo' : 'Complete';
         completeButton.setAttribute('onclick', `toggleComplete(${todo.id}); renderTodos()`);
 
+        const editButton = document.createElement('button');
+        editButton.textContent = "Edit";
+        editButton.setAttribute('onclick', `editTodo(${todo.id})`)
+
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.setAttribute('onclick', `deleteTodo(${todo.id}); renderTodos()`);
 
         todoDiv.appendChild(todoText);
         todoDiv.appendChild(completeButton);
+        todoDiv.appendChild(editButton);
         todoDiv.appendChild(deleteButton);
 
         todoList.appendChild(todoDiv);
@@ -119,7 +124,6 @@ function filterTodosByCategory() {
 // Per salvare i todo in localStorage
 function saveTodos(todos) {
     localStorage.setItem("todos", JSON.stringify(todos));
-    //Oh no! un errore di categorie in localStorage!
 }
 
 // Per recuperare i todo da localStorage
@@ -128,3 +132,34 @@ function loadTodos() {
     return todos ? todos : [];
 }
 
+function editTodo(id){
+    let todos = loadTodos();
+    const newTitleInput = document.getElementById("newTitle");
+    const newCategoryInput = document.getElementById("newCategory");
+
+    const newTitle = newTitleInput.value.trim();
+    const newCategory = newCategoryInput.value.trim();
+
+    newTitleInput.value = '';
+    newCategoryInput.value = '';
+
+    let todo = todos.find(todo => todo.id === id);
+    if(todo) {
+        if (newTitle !== "") {
+            todo.title = newTitle;
+        }
+        if (newCategory !== "") {
+            todo.category = newCategory;
+        }
+    }
+
+    saveTodos(todos);
+    renderTodos();
+}
+
+function toggleEditingDisplay(){
+    const editInput = document.getElementById("editInput");
+    editInput.classList.toggle("hidden");
+
+    renderTodos();
+}
