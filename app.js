@@ -1,29 +1,39 @@
-// Array per memorizzare i Todo
-let todos = [];
+window.onload = function() {
+    renderTodos();
+}
 
 // Funzione per aggiungere un Todo
 function addTodo(title, category) {
+    const todos = loadTodos();
+
     const newTodo = {
         id: Date.now(),
         title: title,
         category: category,
         completed: false
     };
+
     todos.push(newTodo);
+    saveTodos(todos)
     renderTodos();
 }
 
 // Funzione per eliminare un Todo
 function deleteTodo(id) {
+    let todos = loadTodos();
     todos = todos.filter(todo => todo.id !== id);
+    saveTodos(todos)
     renderTodos();
 }
 
 // Funzione per segnare un Todo come completato/non completato
 function toggleComplete(id) {
+    const todos = loadTodos();
+    
     const todo = todos.find(todo => todo.id === id);
     if (todo) {
         todo.completed = !todo.completed;
+        saveTodos(todos);
         renderTodos();
     }
 }
@@ -48,11 +58,13 @@ function handleAddTodo() {
 }
 
 // Rende visibile la lista dei Todo (può accettare un array filtrato)
-function renderTodos(filteredTodos = todos) {
+function renderTodos(filteredTodos = null) {
+    const todos = filteredTodos || loadTodos();
+
     const todoList = document.getElementById('todoList');
     todoList.innerHTML = ''; // Resetta il contenuto precedente
 
-    filteredTodos.forEach(todo => {
+    todos.forEach(todo => {
         const todoDiv = document.createElement('div');
         todoDiv.className = `todo ${todo.completed ? 'completed' : ''}`;
         todoDiv.id = `todo-${todo.id}`;
@@ -76,19 +88,18 @@ function renderTodos(filteredTodos = todos) {
     });
 }
 
-// Filtra i Todo completati e li mostra
 function filterCompleteTodos() {
-    const filteredTodos = todos.filter(todo => todo.completed);
+    const todos = loadTodos();
+    const filteredTodos = todos.filter(todo => todo.completed); 
     renderTodos(filteredTodos);
 }
 
-// Filtra i Todo non completati e li mostra
 function filterIncompleteTodos() {
+    const todos = loadTodos();
     const filteredTodos = todos.filter(todo => !todo.completed);
-    renderTodos(filteredTodos);
+    renderTodos(filteredTodos); 
 }
 
-// Filtra i Todo in base alla categoria e li mostra
 function filterTodosByCategory() {
     const filterCategoryInput = document.getElementById('filterCategory');
     const filterCategory = filterCategoryInput.value.trim();
@@ -100,6 +111,20 @@ function filterTodosByCategory() {
 
     filterCategoryInput.value = '';
 
+    const todos = loadTodos();
     const filteredTodos = todos.filter(todo => todo.category.toLowerCase() === filterCategory.toLowerCase());
     renderTodos(filteredTodos);
 }
+
+// Per salvare i todo in localStorage
+function saveTodos(todos) {
+    localStorage.setItem("todos", JSON.stringify(todos));
+    //Oh no! un errore di categorie in localStorage!
+}
+
+// Per recuperare i todo da localStorage
+function loadTodos() {
+    const todos = JSON.parse(localStorage.getItem("todos"));
+    return todos ? todos : [];
+}
+
